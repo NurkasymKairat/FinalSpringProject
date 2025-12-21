@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="005-seed-dev-data" author="kairat" context="dev">
+
+
+        <insert tableName="users">
+            <column name="id" valueNumeric="1"/>
+            <column name="username" value="admin"/>
+            <column name="email" value="admin@example.com"/>
+            <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="id" valueNumeric="2"/>
+            <column name="username" value="john"/>
+            <column name="email" value="john@example.com"/>
+            <column name="password" value="john123"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <insert tableName="tags">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="urgent"/>
+        </insert>
+
+        <insert tableName="tags">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="home"/>
+        </insert>
+
+
+        <insert tableName="tasks">
+            <column name="id" valueNumeric="1"/>
+            <column name="title" value="Prepare for Spring midterm"/>
+            <column name="description" value="Review Security, JPA, Liquibase, DTO, MapStruct"/>
+            <column name="status" value="OPEN"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueComputed="CURRENT_TIMESTAMP"/>
+            <column name="author_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" valueNumeric="2"/>
+            <column name="title" value="Buy products"/>
+            <column name="description" value="Milk, eggs, rice"/>
+            <column name="status" value="IN_PROGRESS"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" valueComputed="CURRENT_TIMESTAMP"/>
+            <column name="author_id" valueNumeric="2"/>
+        </insert>
+
+
+        <insert tableName="task_tags">
+            <column name="task_id" valueNumeric="1"/>
+            <column name="tag_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="task_tags">
+            <column name="task_id" valueNumeric="2"/>
+            <column name="tag_id" valueNumeric="2"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,30 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd">
+
+
+    <include file="db/migrations/2.0-users-table.xml"
+             relativeToChangelogFile="false"/>
+
+
+    <include file="db/migrations/db.changelog-1.0-create-tasks-table.xml"
+             relativeToChangelogFile="false"/>
+
+
+    <include file="db/migrations/3.0-tags-table.xml"
+             relativeToChangelogFile="false"/>
+
+
+    <include file="db/migrations/4.0-task-tags-table.xml"
+             relativeToChangelogFile="false"/>
+
+
+    <include file="db/migrations/5.0-seed-dev.xml"
+             relativeToChangelogFile="false"/>
+
+    <include file="db/migrations/6.0-add-role-column.xml"
+             relativeToChangelogFile="false"/>
+</databaseChangeLog>
