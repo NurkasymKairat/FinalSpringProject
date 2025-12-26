@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         log.debug("Retrieving all users");
         List<UserDto> users = userRepository.findAll()
                 .stream()
-                .map(userMapper::toResponse)
+                .map(userMapper::toDto)
                 .toList();
         log.info("Retrieved {} users", users.size());
         return users;
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                     return new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
                 });
         log.info("Retrieved user with id: {}", id);
-        return userMapper.toResponse(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         }
         User saved = userRepository.save(user);
         log.info("Created user with id: {} and username: {}", saved.getId(), saved.getUsername());
-        return userMapper.toResponse(saved);
+        return userMapper.toDto(saved);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         }
         User saved = userRepository.save(user);
         log.info("Updated user with id: {}", id);
-        return userMapper.toResponse(saved);
+        return userMapper.toDto(saved);
     }
 
     @Override
