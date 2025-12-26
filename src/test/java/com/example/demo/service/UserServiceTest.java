@@ -17,119 +17,147 @@ public class UserServiceTest {
 
     @Test
     void getAllTest() {
+
         List<UserDto> userDtos = userService.getAll();
-        
+
         Assertions.assertNotNull(userDtos);
+
         Assertions.assertNotEquals(0, userDtos.size());
-        
+
         for (int i = 0; i < userDtos.size(); i++) {
+
             UserDto userDto = userDtos.get(i);
+
             Assertions.assertNotNull(userDto.getId());
             Assertions.assertNotNull(userDto.getUsername());
             Assertions.assertNotNull(userDto.getEmail());
+
         }
+
     }
 
     @Test
     void getByIdTest() {
+
         Random random = new Random();
+
         System.out.println(userService.getAll().size());
-        
-        if (userService.getAll().size() > 0) {
-            int randomIndex = random.nextInt(userService.getAll().size());
-            Long someIndex = userService.getAll().get(randomIndex).getId();
-            
-            UserDto userDto = userService.getById(someIndex);
-            
-            Assertions.assertNotNull(userDto);
-            Assertions.assertNotNull(userDto.getId());
-            Assertions.assertNotNull(userDto.getUsername());
-            Assertions.assertNotNull(userDto.getEmail());
-        }
+
+        int randomIndex = random.nextInt(userService.getAll().size());
+
+        Long someIndex = userService.getAll().get(randomIndex).getId();
+
+        UserDto userDto = userService.getById(someIndex);
+
+        Assertions.assertNotNull(userDto);
+
+        Assertions.assertNotNull(userDto.getId());
+        Assertions.assertNotNull(userDto.getUsername());
+        Assertions.assertNotNull(userDto.getEmail());
+
     }
 
     @Test
     void createTest() {
-        UserDto user = new UserDto();
+
         long timestamp = System.currentTimeMillis();
-        user.setUsername("testuser-" + timestamp);
-        user.setEmail("test-" + timestamp + "@example.com");
+
+        UserDto user = new UserDto();
+        user.setUsername("testuser" + timestamp);
+        user.setEmail("testuser" + timestamp + "@example.com");
         user.setPassword("password123");
-        
+
         UserDto createdUser = userService.create(user);
-        
+
         Assertions.assertNotNull(createdUser);
+
         Assertions.assertNotNull(createdUser.getId());
         Assertions.assertNotNull(createdUser.getUsername());
         Assertions.assertNotNull(createdUser.getEmail());
+
         Assertions.assertEquals(user.getUsername(), createdUser.getUsername());
         Assertions.assertEquals(user.getEmail(), createdUser.getEmail());
-        
+
         UserDto dto = userService.getById(createdUser.getId());
-        
+
         Assertions.assertNotNull(dto);
+
         Assertions.assertNotNull(dto.getId());
         Assertions.assertNotNull(dto.getUsername());
         Assertions.assertNotNull(dto.getEmail());
+
         Assertions.assertEquals(createdUser.getId(), dto.getId());
         Assertions.assertEquals(createdUser.getUsername(), dto.getUsername());
         Assertions.assertEquals(createdUser.getEmail(), dto.getEmail());
+
     }
 
     @Test
     void updateTest() {
-        UserDto user = new UserDto();
+
         long timestamp = System.currentTimeMillis();
-        user.setUsername("update-user-" + timestamp);
-        user.setEmail("update-" + timestamp + "@example.com");
-        user.setPassword("password123");
-        
-        UserDto createdUser = userService.create(user);
-        Long someIndex = createdUser.getId();
-        
-        UserDto updateDto = new UserDto();
-        long updateTimestamp = System.currentTimeMillis();
-        updateDto.setUsername("updated-user-" + updateTimestamp);
-        updateDto.setEmail("updated-" + updateTimestamp + "@example.com");
-        updateDto.setPassword("newpassword");
-        
-        UserDto updated = userService.update(someIndex, updateDto);
-        
+
+        Random random = new Random();
+
+        int randomIndex = random.nextInt(userService.getAll().size());
+
+        Long someIndex = userService.getAll().get(randomIndex).getId();
+
+        UserDto user = UserDto
+                .builder()
+                .id(someIndex)
+                .username("updateduser" + timestamp)
+                .email("updated" + timestamp + "@example.com")
+                .password("newpassword")
+                .build();
+
+        UserDto updated = userService.update(user.getId(), user);
+
         Assertions.assertNotNull(updated);
+
         Assertions.assertNotNull(updated.getId());
         Assertions.assertNotNull(updated.getUsername());
         Assertions.assertNotNull(updated.getEmail());
-        
-        UserDto changedUser = userService.getById(someIndex);
-        
+
+        UserDto changedUser = userService.getById(user.getId());
+
         Assertions.assertNotNull(changedUser);
+
         Assertions.assertNotNull(changedUser.getId());
         Assertions.assertNotNull(changedUser.getUsername());
         Assertions.assertNotNull(changedUser.getEmail());
+
         Assertions.assertEquals(updated.getId(), changedUser.getId());
         Assertions.assertEquals(updated.getUsername(), changedUser.getUsername());
         Assertions.assertEquals(updated.getEmail(), changedUser.getEmail());
+
     }
 
     @Test
     void deleteTest() {
-        UserDto user = new UserDto();
-        long timestamp = System.currentTimeMillis();
-        user.setUsername("delete-user-" + timestamp);
-        user.setEmail("delete-" + timestamp + "@example.com");
-        user.setPassword("password123");
-        
-        UserDto createdUser = userService.create(user);
-        Long someIndex = createdUser.getId();
-        
-        userService.delete(someIndex);
-        
-        try {
-            userService.getById(someIndex);
-            Assertions.fail("User should be deleted");
-        } catch (Exception e) {
-            Assertions.assertTrue(true);
-        }
-    }
-}
 
+        long timestamp = System.currentTimeMillis();
+
+        UserDto user = new UserDto();
+        user.setUsername("deleteuser" + timestamp);
+        user.setEmail("delete" + timestamp + "@example.com");
+        user.setPassword("password123");
+
+        UserDto createdUser = userService.create(user);
+
+        Long someIndex = createdUser.getId();
+
+        userService.delete(someIndex);
+
+        UserDto userDto = null;
+        try {
+            userDto = userService.getById(someIndex);
+        } catch (Exception e) {
+            // expected
+        }
+
+        Assertions.assertNull(userDto);
+
+    }
+
+}
