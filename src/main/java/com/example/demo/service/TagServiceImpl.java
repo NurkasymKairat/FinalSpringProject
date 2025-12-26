@@ -24,7 +24,7 @@ public class TagServiceImpl implements TagService {
         Tag tag = mapper.toEntity(dto);
         repository.save(tag);
         log.info("Created tag with id: {} and name: {}", tag.getId(), tag.getName());
-        return mapper.toResponse(tag);
+        return mapper.toDto(tag);
     }
 
     @Override
@@ -39,14 +39,14 @@ public class TagServiceImpl implements TagService {
         mapper.updateEntity(dto, tag);
         repository.save(tag);
         log.info("Updated tag with id: {}", id);
-        return mapper.toResponse(tag);
+        return mapper.toDto(tag);
     }
 
     @Override
     public TagDto getById(Long id) {
         log.debug("Retrieving tag with id: {}", id);
         TagDto tag = repository.findById(id)
-                .map(mapper::toResponse)
+                .map(mapper::toDto)
                 .orElseThrow(() -> {
                     log.warn("Tag not found with id: {}", id);
                     return new RuntimeException("Tag not found");
@@ -60,7 +60,7 @@ public class TagServiceImpl implements TagService {
         log.debug("Retrieving all tags");
         List<TagDto> tags = repository.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(mapper::toDto)
                 .toList();
         log.info("Retrieved {} tags", tags.size());
         return tags;

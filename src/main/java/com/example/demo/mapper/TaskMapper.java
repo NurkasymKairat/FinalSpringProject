@@ -14,6 +14,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
 
+    @Mapping(target = "authorId", source = "author.id")
+    @Mapping(target = "tagIds", expression = "java(toTagIdList(task.getTags()))")
+    TaskResponseDto toDto(Task task);
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "tags", ignore = true)
@@ -21,16 +25,14 @@ public interface TaskMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Task toEntity(TaskCreateDto dto);
 
+    List<TaskResponseDto> toDtoList(List<Task> tasks);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "tags", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     void updateEntity(TaskUpdateDto dto, @MappingTarget Task task);
-
-    @Mapping(target = "authorId", source = "author.id")
-    @Mapping(target = "tagIds", expression = "java(toTagIdList(task.getTags()))")
-    TaskResponseDto toResponse(Task task);
 
     default List<Long> toTagIdList(List<Tag> tags) {
         if (tags == null) return Collections.emptyList();
@@ -41,4 +43,3 @@ public interface TaskMapper {
         return ids;
     }
 }
-

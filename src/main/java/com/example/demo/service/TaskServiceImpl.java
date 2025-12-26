@@ -35,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskResponseDto> getAll() {
         log.debug("Retrieving all tasks");
         List<TaskResponseDto> tasks = taskRepository.findAll().stream()
-                .map(taskMapper::toResponse)
+                .map(taskMapper::toDto)
                 .toList();
         log.info("Retrieved {} tasks", tasks.size());
         return tasks;
@@ -50,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
                     return new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found");
                 });
         log.info("Retrieved task with id: {}", id);
-        return taskMapper.toResponse(task);
+        return taskMapper.toDto(task);
     }
     @Override
     public TaskResponseDto addTagToTask(Long taskId, Long tagId) {
@@ -75,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         Task saved = taskRepository.save(task);
-        return taskMapper.toResponse(saved);
+        return taskMapper.toDto(saved);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         Task saved = taskRepository.save(task);
-        return taskMapper.toResponse(saved);
+        return taskMapper.toDto(saved);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class TaskServiceImpl implements TaskService {
 
         Task saved = taskRepository.save(task);
         log.info("Created task with id: {} and title: {}", saved.getId(), saved.getTitle());
-        return taskMapper.toResponse(saved);
+        return taskMapper.toDto(saved);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class TaskServiceImpl implements TaskService {
 
         Task saved = taskRepository.save(task);
         log.info("Updated task with id: {}", id);
-        return taskMapper.toResponse(saved);
+        return taskMapper.toDto(saved);
     }
 
     @Override

@@ -22,9 +22,9 @@
              relativeToChangelogFile="false"/>
 
 
-    <include file="db/migrations/5.0-seed-dev.xml"
+    <include file="db/migrations/6.0-add-role-column.xml"
              relativeToChangelogFile="false"/>
 
-    <include file="db/migrations/6.0-add-role-column.xml"
+    <include file="db/migrations/7.0-seed-dev.xml"
              relativeToChangelogFile="false"/>
 </databaseChangeLog>
