@@ -62,11 +62,9 @@ public class TaskServiceTest {
     @Test
     void createTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         TaskCreateDto task = new TaskCreateDto();
-        task.setTitle("Test Task " + timestamp);
-        task.setDescription("Test Description");
+        task.setTitle("test task");
+        task.setDescription("test description");
         task.setStatus("OPEN");
         task.setAuthorId(1L);
 
@@ -104,11 +102,9 @@ public class TaskServiceTest {
 
         Long someIndex = taskService.getAll().get(randomIndex).getId();
 
-        long timestamp = System.currentTimeMillis();
-
         TaskUpdateDto task = new TaskUpdateDto();
-        task.setTitle("Updated Task " + timestamp);
-        task.setDescription("Updated Description");
+        task.setTitle("updated task");
+        task.setDescription("updated description");
         task.setStatus("IN_PROGRESS");
 
         TaskResponseDto updated = taskService.update(someIndex, task);
@@ -136,11 +132,9 @@ public class TaskServiceTest {
     @Test
     void deleteTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         TaskCreateDto task = new TaskCreateDto();
-        task.setTitle("Delete Task " + timestamp);
-        task.setDescription("Delete Description");
+        task.setTitle("delete task");
+        task.setDescription("delete description");
         task.setStatus("OPEN");
         task.setAuthorId(1L);
 

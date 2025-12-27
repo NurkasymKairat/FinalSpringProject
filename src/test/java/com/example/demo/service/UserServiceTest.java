@@ -60,11 +60,9 @@ public class UserServiceTest {
     @Test
     void createTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         UserDto user = new UserDto();
-        user.setUsername("testuser" + timestamp);
-        user.setEmail("testuser" + timestamp + "@example.com");
+        user.setUsername("test user");
+        user.setEmail("testuser@example.com");
         user.setPassword("password123");
 
         UserDto createdUser = userService.create(user);
@@ -95,8 +93,6 @@ public class UserServiceTest {
     @Test
     void updateTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         Random random = new Random();
 
         int randomIndex = random.nextInt(userService.getAll().size());
@@ -106,8 +102,8 @@ public class UserServiceTest {
         UserDto user = UserDto
                 .builder()
                 .id(someIndex)
-                .username("updateduser" + timestamp)
-                .email("updated" + timestamp + "@example.com")
+                .username("updated user")
+                .email("updated@example.com")
                 .password("newpassword")
                 .build();
 
@@ -136,11 +132,9 @@ public class UserServiceTest {
     @Test
     void deleteTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         UserDto user = new UserDto();
-        user.setUsername("deleteuser" + timestamp);
-        user.setEmail("delete" + timestamp + "@example.com");
+        user.setUsername("delete user");
+        user.setEmail("delete@example.com");
         user.setPassword("password123");
 
         UserDto createdUser = userService.create(user);
