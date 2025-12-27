@@ -58,10 +58,8 @@ public class TagServiceTest {
     @Test
     void createTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         TagDto tag = new TagDto();
-        tag.setName("test-tag" + timestamp);
+        tag.setName("test tag");
 
         TagDto createdTag = tagService.create(tag);
 
@@ -93,11 +91,9 @@ public class TagServiceTest {
 
         Long someIndex = tagService.getAll().get(randomIndex).getId();
 
-        long timestamp = System.currentTimeMillis();
-
         TagDto tag = new TagDto();
         tag.setId(someIndex);
-        tag.setName("updated-tag" + timestamp);
+        tag.setName("updated tag");
 
         TagDto updated = tagService.update(tag.getId(), tag);
 
@@ -121,10 +117,8 @@ public class TagServiceTest {
     @Test
     void deleteTest() {
 
-        long timestamp = System.currentTimeMillis();
-
         TagDto tag = new TagDto();
-        tag.setName("delete-tag" + timestamp);
+        tag.setName("delete tag");
 
         TagDto createdTag = tagService.create(tag);
 

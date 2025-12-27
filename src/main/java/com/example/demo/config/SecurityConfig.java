@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,11 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Bean
-    public MyUserService userService(UserRepository userRepository) {
+    public MyUserService myUserService(UserRepository userRepository) {
         return new MyUserService(userRepository);
     }
 
@@ -31,20 +29,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MyUserService myUserService, PasswordEncoder passwordEncoder) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
+        AuthenticationManagerBuilder authBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
-        authenticationManagerBuilder
+        authBuilder
                 .userDetailsService(myUserService)
                 .passwordEncoder(passwordEncoder);
 
-        http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers("/auth/**").permitAll()
+        http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.GET).permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/tasks").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST).authenticated()
-                .requestMatchers(HttpMethod.PUT).authenticated()
-                .requestMatchers(HttpMethod.DELETE).authenticated()
+                .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                .anyRequest().authenticated()
         );
         http.httpBasic(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
